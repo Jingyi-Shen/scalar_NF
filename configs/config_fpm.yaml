@@ -1,0 +1,54 @@
+# logger options
+snapshot_save_itr: 50
+log_itr: 10
+test_itr: 10
+
+# optimization options
+max_itr: 20000
+lr: 0.0001
+lr_shedule_step: 500
+lr_shedule_scale: 0.5
+clip_max_norm: 1
+# fine-tuning options
+set_lr: 0
+
+cuda: True
+
+# data options
+dataname: fpm
+test_data_file_path: /fs/ess/PAS0027/2016_scivis_fpm/0.44/run41/081.vtu
+# test_data_file_path: ./data/fpm/cropped/fpm_run41_081_x0y0z8_1024.vtu
+# test_data_file_path: ./data/padded/fpm_run41_081_padded144651.vtu #fpm_run41_081_padded144651.vtu # fpm_run41_081_padded_2N_pad0
+data_path: /fs/ess/PAS0027/
+
+batchsize: 128
+batchsize_test: 128
+batchsize_test_oct: 1
+worker_num: 1
+
+# model FlowNet
+flows: 20
+L: 1
+splitOff: [10, 10, 10]
+RRDB_nb: [2, 2]
+RRDB_nf: 32
+# 16/64
+preK: 3
+factor: 8
+ks_s_pad: [1, 1, 0]
+
+# model NF_y2
+NF_y2_flows: 20
+preK_y2: 0
+factor_y2: 0
+ks_s_pad_y2: [1, 1, 0]
+
+# model EdgeConvPointEncoder
+num_conv: 10
+num_neighbors: 16
+
+
+test_low_res_file_path: ./data/fpm/fpm_run41_081_low_res_sf10.vtu
+# test_low_res_file_path: ./results/pointNF_uniform_N5000_ts80_k512_sf2_FCN_2d_1e4latloss_1e5cycle_1e5cyrecon_1e5meansam_y2NF10_1attr_chamfer_20f_10condf_RRDB3/outputs/fpm_run44_fpm_run41_081_low_res_sf10_fps_std0_sr0.vtu
+test_high_res_file_path: /fs/ess/PAS0027/2016_scivis_fpm/0.44/run41/081.vtu
+# tensorboard --logdir=./results/isabel/logs/ --host localhost --port 8888

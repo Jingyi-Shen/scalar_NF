@@ -1,0 +1,53 @@
+# logger options
+snapshot_save_itr: 50
+log_itr: 10
+test_itr: 10
+
+# optimization options
+max_itr: 10000
+lr: 0.0001
+lr_shedule_step: 1000
+lr_shedule_scale: 0.8
+clip_max_norm: 1
+# fine-tuning options
+set_lr: 0
+
+cuda: True
+
+# data options
+dataname: vortex
+train_data_file_path: /fs/ess/PAS0027/vortex_data/vortex/vorts01.data
+test_data_file_path: /fs/ess/PAS0027/vortex_data/vortex/vorts01.data
+data_path: /fs/ess/PAS0027/
+
+batchsize: 256
+batchsize_test: 256
+blocksize: 24
+padding: 4
+worker_num: 1
+p: 0.2
+
+# model FlowNet
+# flows: 20
+# splitOff: [10, 10, 10]
+L: 1
+flows: 10
+splitOff: [5, 5, 5]
+RRDB_nb: [2, 2]
+RRDB_nf: 32 
+# flows: 15
+# splitOff: [5, 5, 5]
+# RRDB_nb: [3, 3]
+# RRDB_nf: 64 
+# flows: 5
+# splitOff: [2, 2, 2]
+# RRDB_nb: [2, 2]
+# RRDB_nf: 16 
+
+preK: 3
+factor: 2
+ks_s_pad: [3, 1, 1]
+
+
+
+# tensorboard --logdir=./results/isabel/logs/ --host localhost --port 8888

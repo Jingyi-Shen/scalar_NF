@@ -1,0 +1,53 @@
+#!/bin/bash
+#SBATCH --account=PAS0027
+#SBATCH --time=24:00:00
+#SBATCH --ntasks=1
+#SBATCH --nodes=1 --ntasks-per-node=1 --gpus-per-node=1 --gpu_cmode=shared
+
+#SBATCH --job-name=ssr_nyx
+
+
+module load python/3.9 
+source activate /users/PAS0027/shen1250/anaconda2/envs/pytorch38
+module load cuda/11.0.3
+
+cd /users/PAS0027/shen1250/Project/scalar_NF
+OUTDIR=./results/ssr_nyx
+
+# python -u train_ssr.py --config=./configs/config_vortex.yaml --train --sample_type 'multi' --sample_size_list 100 100 200 --sf 2  --name ssr_noDs   > ${OUTDIR}/ssr_noDs.log
+python -u train_ssr.py --config=./configs/config_nyx.yaml --train --sample_type 'multi' --sample_size_list 100 50 50 10 --sf 2  --name ssr_nyx   > ${OUTDIR}/ssr_nyx.log
+# python -u train_ssr.py --config=./configs/config_nyx.yaml --train --sample_type 'multi' --sample_size_list 100 50 50 10 --sf 2  --name ssr_noDs_nyx   > ${OUTDIR}/ssr_noDs_nyx.log
+
+# python -u train_esrgan.py --config=./configs/config_vortex.yaml --train --sample_type 'multi' --sample_size_list 100 100 200 --sf 2  --name esrgan_multi_100_100_200_nblock18   > ${OUTDIR}/esrgan_multi_100_100_200_nblock18.log
+# python -u train_esrgan.py --config=./configs/config_nyx.yaml --train --sample_type 'multi' --sample_size_list 100 50 50 10 --sf 2  --name esrgan_multi_100_100_200_nblock10_nyx   > ${OUTDIR}/esrgan_multi_100_100_200_nblock10_nyx.log
+
+
+
+# python -u train_single_nf.py --config=./configs/config_vortex.yaml --train --sample_type 'single'  --sample_size 100 --sf 2 --name 3d_ts5_N100_15f_5cond_3nb_64nf_sz2  > ${OUTDIR}/3d_ts5_N100_15f_5cond_3nb_64nf_sz2.log
+# python -u train_encoder.py --config=./configs/config_vortex.yaml --train --sample_type 'single' --sample_size 100 --sf 2 --latent_loss 1  --name fixedNF_3d_N100_15f_5cond_3nb_64nf_sz2_1lat_encoder_wo_gdn --resume_nf ./results/3d_N100_15f_5cond_3nb_64nf_sz2/snapshots/best_nf.pt  > ${OUTDIR}/fixedNF_3d_N100_15f_5cond_3nb_64nf_sz2_1lat_encoder_wo_gdn.log
+# python -u train_vaenf.py --config=./configs/config_vortex.yaml --train --sample_type 'single' --sample_size 500  --cycle_loss 1 --latent_loss 1 --sf 2 --resume_nf ./results/vortex_3d_N100_15f_5cond_3nb_64nf_sz2/snapshots/best_nf.pt  --name vortex_AENF_500_15f_5cond_3nb_64nf_sz2_1lat > ${OUTDIR}/vortex_AENF_500_15f_5cond_3nb_64nf_sz2_1lat.log
+
+# python -u train_vaenf.py --config=./configs/config_vortex.yaml --train --sample_type 'multi' --sample_size_list 100 100 100 --latent_loss 10 --sf 2 --name vortex_ts5_0AEv3resNF_multi_100_100_100_10f_5cond_2nb_16nf_sz2_10lat_scale_dense  > ${OUTDIR}/vortex_ts5_0AEv3resNF_multi_100_100_100_10f_5cond_2nb_16nf_sz2_10lat_scale_dense.log
+
+
+
+
+# python -u train_single_nf.py --config=./configs/config_nyx.yaml --train --sample_type 'multi'  --sample_size_list 100 50 50 10 --sf 2 --name nyx_multi_100_50_50_10_10f_5cond_2nb_32nf_sz2  > ${OUTDIR}/nyx_multi_100_50_50_10_10f_5cond_2nb_32nf_sz2.log
+# python -u train_encoder.py --config=./configs/config_nyx.yaml --train --sample_type 'multi' --sample_size_list 100 50 50 10 --sf 2 --latent_loss 10 --name nyx_fixedNF_multi_100_50_50_10_10f_5cond_2nb_32nf_10lat --resume_nf ./results/nyx_multi_100_50_50_10_10f_5cond_2nb_32nf_sz2/snapshots/best_nf.pt  > ${OUTDIR}/nyx_fixedNF_multi_100_50_50_10_10f_5cond_2nb_32nf_10lat.log
+# python -u train_vaenf.py --config=./configs/config_nyx.yaml --train --sample_type 'single' --sample_size 500 --latent_loss 1 --sf 2 --resume_nf ./results/nyx_3d_ts5_N100_15f_5cond_3nb_64nf_sz2/snapshots/best_nf.pt  --name nyx_AENF_500_15f_5cond_3nb_64nf_sz2_1lat > ${OUTDIR}/nyx_AENF_500_15f_5cond_3nb_64nf_sz2_1lat.log
+
+# python -u train_vaenf.py --config=./configs/config_nyx.yaml --train --sample_type 'multi' --sample_size_list 100 50 50 10 --latent_loss 10 --sf 2  --name nyx_AEv3resNF_multi_100_50_50_10_10f_5cond_2nb_32nf_sz2_10lat_32.9572_cnt --resume_nf ./results/nyx_AEv3resNF_multi_100_50_50_10_10f_5cond_2nb_32nf_sz2_10lat_32.9572/snapshots/best_nf.pt --resume_ae ./results/nyx_AEv3resNF_multi_100_50_50_10_10f_5cond_2nb_32nf_sz2_10lat_32.9572/snapshots/best_aey2.pt > ${OUTDIR}/nyx_AEv3resNF_multi_100_50_50_10_10f_5cond_2nb_32nf_sz2_10lat_32.9572_cnt.log
+
+# python -u train_vaenf.py --config=./configs/config_nyx.yaml --train --sample_type 'multi' --sample_size_list 100 50 50 10 --latent_loss 10 --sf 2  --name nyx_0AEv4resNF_RRDBv2_multi_100_50_50_10_10f_5cond_2nb_32nf_sz2_10lat_scale > ${OUTDIR}/nyx_0AEv4resNF_RRDBv2_multi_100_50_50_10_10f_5cond_2nb_32nf_sz2_10lat_scale.log
+
+
+# python -u train_vaenf.py --config=./configs/config_nyx.yaml --train --sample_type 'multi' --sample_size_list 100 50 50 10 --latent_loss 10 --sf 2 --ensemble  --name ensemble_nyx_0AEv3resNF_multi_100_50_50_10_10f_5cond_2nb_32nf_10lat --resume_nf ./results/ensemble_nyx_0AEv3resNF_multi_100_50_50_10_10f_5cond_2nb_32nf_10lat/snapshots/best_nf.pt --resume_ae ./results/ensemble_nyx_0AEv3resNF_multi_100_50_50_10_10f_5cond_2nb_32nf_10lat/snapshots/best_aey2.pt > ${OUTDIR}/ensemble_nyx_0AEv3resNF_multi_100_50_50_10_10f_5cond_2nb_32nf_10lat.log
+
+
+#  --cycle_loss 1 
+
+
+
+# --gan_loss 'vanilla' 
+
+#sinteractive -A PAS0027 -N 1 -g 1 -m 65536 -t 1:00:00

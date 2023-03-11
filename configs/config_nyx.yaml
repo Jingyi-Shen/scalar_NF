@@ -1,0 +1,51 @@
+# logger options
+snapshot_save_itr: 50
+log_itr: 5
+test_itr: 10
+
+# optimization options
+max_itr: 10000
+lr: 0.0001
+lr_shedule_step: 1000
+lr_shedule_scale: 0.8
+clip_max_norm: 1
+# fine-tuning options
+set_lr: 0
+
+cuda: True
+
+# data options
+dataname: nyx
+# dataname: nyx_ensemble
+train_data_file_path: /fs/project/PAS0027/nyx/256/256CombineFiles/raw/4.bin
+test_data_file_path: /fs/project/PAS0027/nyx/256/256CombineFiles/raw/4.bin
+# /fs/ess/PAS0027/nyx/256/output/0001_0.15178_0.02178_0.68076/Raw_plt256_00200/density.bin
+data_path: /fs/ess/PAS0027/
+
+batchsize: 256
+batchsize_test: 256
+blocksize: 24
+padding: 4
+worker_num: 1
+p: 0.2
+
+# model FlowNet
+# flows: 20
+# splitOff: [10, 10, 10]
+L: 1
+# flows: 15
+# splitOff: [5, 5, 5]
+# RRDB_nb: [3, 3]
+# RRDB_nf: 64 
+# 16/64
+flows: 10
+splitOff: [5, 5, 5]
+RRDB_nb: [2, 2]
+RRDB_nf: 32 
+preK: 3
+factor: 2
+ks_s_pad: [3, 1, 1]
+
+
+
+# tensorboard --logdir=./results/isabel/logs/ --host localhost --port 8888
